@@ -1,0 +1,31 @@
+city,lat,lng,landmass_group
+Mumbai,19.0760,72.8777,india
+Delhi,28.7041,77.1025,india
+Bangalore,12.9716,77.5946,india
+Chennai,13.0827,80.2707,india
+Kolkata,22.5726,88.3639,india
+Hyderabad,17.3850,78.4867,india
+Pune,18.5204,73.8567,india
+Ahmedabad,23.0225,72.5714,india
+Jaipur,26.9124,75.7873,india
+Surat,21.1702,72.8311,india
+New York,40.7128,-74.0060,north_america
+Los Angeles,34.0522,-118.2437,north_america
+Chicago,41.8781,-87.6298,north_america
+Houston,29.7604,-95.3698,north_america
+Phoenix,33.4484,-112.0740,north_america
+Philadelphia,39.9526,-75.1652,north_america
+San Antonio,29.4241,-98.4936,north_america
+San Diego,32.7157,-117.1611,north_america
+Dallas,32.7767,-96.7970,north_america
+San Jose,37.3382,-121.8863,north_america
+London,51.5074,-0.1278,europe
+Paris,48.8566,2.3522,europe
+Berlin,52.5200,13.4050,europe
+Madrid,40.4168,-3.7038,europe
+Rome,41.9028,12.4964,europe
+Barcelona,41.3851,2.1734,europe
+Amsterdam,52.3676,4.9041,europe
+Vienna,48.2082,16.3738,europe
+Prague,50.0755,14.4378,europe
+Budapest,47.4979,19.0402,europe
