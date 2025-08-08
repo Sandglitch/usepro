@@ -4,7 +4,7 @@ import pandas as pd
 # Load the city data from the CSV file
 print("Loading worldcities.csv...")
 try:
-    df = pd.read_csv('worldcities.csv')
+    df = pd.read_csv('locations/worldcities.csv')
 except FileNotFoundError:
     print("Error: worldcities.csv not found. Make sure it's in the same folder as this script.")
     exit()
