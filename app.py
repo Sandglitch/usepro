@@ -128,46 +128,78 @@ def get_route_with_waypoints(start_location, end_location, waypoints):
 
 @app.route('/get-random-route', methods=['GET'])
 def get_random_route():
-    """Main endpoint to get a random route with waypoints"""
+    start_location = request.args.get('start')
+    end_location = request.args.get('end')
+
+    if not start_location or not end_location:
+        return jsonify({"error": "Missing 'start' or 'end' parameter"}), 400
+
     try:
-        # Get query parameters
-        start_location = request.args.get('start')
-        end_location = request.args.get('end')
+        # 1. Geocode start location
+        geocode_result = gmaps.geocode(start_location)
+        if not geocode_result:
+            return jsonify({"error": f"Could not find location: {start_location}"}), 404
         
-        # Validate parameters
-        if not start_location:
-            return jsonify({'error': 'Missing start parameter'}), 400
-        if not end_location:
-            return jsonify({'error': 'Missing end parameter'}), 400
+        start_coords = geocode_result[0]['geometry']['location']
+        start_lat, start_lng = start_coords['lat'], start_coords['lng']
+
+        # 2. Determine landmass group
+        distances = haversine(start_lat, start_lng, df_cities['lat'].values, df_cities['lng'].values)
+        nearest_city_index = np.argmin(distances)
+        landmass_group = df_cities.iloc[nearest_city_index]['landmass_group']
+
+        # 3. Filter and sample waypoints
+        df_filtered = df_cities[df_cities['landmass_group'] == landmass_group]
         
-        # Step 1: Geocode start location
-        start_coords, error = geocode_location(start_location)
-        if error:
-            return jsonify({'error': error}), 400
+        num_available_cities = len(df_filtered)
+        if num_available_cities < 1:
+             return jsonify({"error": f"No cities found for landmass group: {landmass_group}"}), 404
+
+        sample_size = min(3, num_available_cities)
+        waypoints_df = df_filtered.sample(n=sample_size)
+
+        # --- THIS IS THE CORRECTED PART ---
+        # Explicitly convert lat/lng to standard Python floats to avoid type issues
+        waypoint_coords = [
+            {'lat': float(row['lat']), 'lng': float(row['lng'])} 
+            for index, row in waypoints_df.iterrows()
+        ]
+        waypoint_names = waypoints_df['city'].tolist()
+        # --- END OF CORRECTION ---
+
+        # 5. Call Directions API
+        print(f"Requesting route with waypoints: {waypoint_names}")
+        directions_result = gmaps.directions(
+            start_location,
+            end_location,
+            waypoints=waypoint_coords,
+            mode="driving"
+        )
         
-        # Step 2: Determine landmass group
-        landmass_group, error = get_landmass_group(start_coords['lat'], start_coords['lng'])
-        if error:
-            return jsonify({'error': error}), 400
+        # --- ADDED LOGGING ---
+        # Print the full response from Google to see exactly what it contains
+        print(f"Full API Response: {directions_result}")
+        # --- END LOGGING ---
+
+        if not directions_result:
+            return jsonify({"error": "No route found"}), 500
+
+        # 6. Extract Polyline and return
+        polyline = directions_result[0]['overview_polyline']['points']
         
-        # Step 3: Select random waypoints
-        waypoints, error = select_random_waypoints(landmass_group)
-        if error:
-            return jsonify({'error': error}), 400
-        
-        # Step 4: Get route with waypoints
-        polyline, error = get_route_with_waypoints(start_location, end_location, waypoints)
-        if error:
-            return jsonify({'error': error}), 400
-        
-        # Step 5: Return success response
         return jsonify({
-            'waypoints': waypoints,
-            'polyline': polyline
-        }), 200
-        
+            "waypoints": waypoint_names,
+            "polyline": polyline
+        })
+
     except Exception as e:
-        return jsonify({'error': f'Unexpected error: {str(e)}'}), 500
+        # --- ENHANCED ERROR LOGGING ---
+        # Print the specific exception to the console for debugging
+        print(f"An unexpected error occurred: {e}")
+        import traceback
+        traceback.print_exc() # Prints the full error traceback
+        # --- END LOGGING ---
+        return jsonify({"error": "An internal server error occurred."}), 500
 
 @app.route('/health', methods=['GET'])
 def health_check():
