@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Useless Route Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            margin: 0; 
+            background-color: #f8f9fa; 
+            color: #212529;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+        #map { 
+            height: 50vh; /* 50% of the viewport height */
+            width: 100%; 
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+        }
+        h1 { text-align: center; color: #343a40; }
+        .card {
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+        input[type="text"] { 
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ced4da; 
+            border-radius: 4px; 
+            font-size: 1rem;
+        }
+        button { 
+            padding: 10px 20px; 
+            background-color: #007bff; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+        button:hover { background-color: #0056b3; }
+        #results h2 { margin-top: 0; }
+        #waypoints-list { list-style-type: none; padding: 0; }
+        #waypoints-list li { 
+            background-color: #e9ecef; 
+            margin-bottom: 8px; 
+            padding: 12px; 
+            border-radius: 4px; 
+        }
+        #message { 
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+        .error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb;}
+        .loading { color: #0c5460; background-color: #d1ecf1; border: 1px solid #bee5eb;}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Useless Route Generator</h1>
+
+        <div class="card">
+            <div class="input-group">
+                <input type="text" id="start" placeholder="Start Location (e.g., Delhi)">
+                <input type="text" id="end" placeholder="End Location (e.g., Mumbai)">
+            </div>
+            <button onclick="generateRoute()" style="width: 100%;">Generate Longest Route</button>
+        </div>
+
+        <div id="map"></div>
+
+        <div id="results" class="card" style="display: none;">
+            <h2>Random Stops:</h2>
+            <ul id="waypoints-list"></ul>
+        </div>
+        
+        <div id="message"></div>
+    </div>
+
+    <script>
+        let map;
+        let routePolyline;
+
+        // This function runs when the Google Maps script loads
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 20.5937, lng: 78.9629 }, // Default center on India
+                zoom: 5,
+                mapTypeControl: false,
+                streetViewControl: false,
+            });
+        }
+
+        async function generateRoute() {
+            const start = document.getElementById('start').value;
+            const end = document.getElementById('end').value;
+            const waypointsList = document.getElementById('waypoints-list');
+            const resultsDiv = document.getElementById('results');
+            const messageDiv = document.getElementById('message');
+
+            // --- 1. Clear previous results ---
+            waypointsList.innerHTML = '';
+            resultsDiv.style.display = 'none';
+            messageDiv.innerText = '';
+            messageDiv.className = '';
+            if (routePolyline) {
+                routePolyline.setMap(null);
+            }
+
+            if (!start || !end) {
+                messageDiv.innerText = "Please enter both a start and end location.";
+                messageDiv.className = 'message error';
+                return;
+            }
+
+            // --- 2. Show a loading message ---
+            messageDiv.innerText = 'Calculating your useless route...';
+            messageDiv.className = 'message loading';
+
+            try {
+                // --- 3. Call your Flask backend API ---
+                // We use encodeURIComponent to handle spaces and special characters in location names
+                const response = await fetch(`http://127.0.0.1:5000/get-random-route?start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                // --- 4. Display the successful results ---
+                messageDiv.innerText = ''; // Clear loading message
+                resultsDiv.style.display = 'block';
+
+                // Display the randomly chosen waypoints
+                data.waypoints.forEach(waypoint => {
+                    const li = document.createElement('li');
+                    li.innerText = waypoint;
+                    waypointsList.appendChild(li);
+                });
+
+                // Decode the polyline and draw it on the map
+                const decodedPath = google.maps.geometry.encoding.decodePath(data.polyline);
+                
+                routePolyline = new google.maps.Polyline({
+                    path: decodedPath,
+                    geodesic: true,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 3,
+                });
+
+                routePolyline.setMap(map);
+
+                // Zoom the map to fit the new route
+                const bounds = new google.maps.LatLngBounds();
+                decodedPath.forEach(point => bounds.extend(point));
+                map.fitBounds(bounds);
+
+            } catch (err) {
+                resultsDiv.style.display = 'none';
+                messageDiv.innerText = `Error: ${err.message}. Please try again.`;
+                messageDiv.className = 'message error';
+            }
+        }
+    </script>
+    
+    <!-- 
+      IMPORTANT: Replace 'YOUR_FRONTEND_API_KEY' with your actual, frontend-restricted API key.
+      The 'libraries=geometry' part is essential for decoding the polyline.
+    -->
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNSV_vtZ1zmAC8tnmm3GTCYDQ-iO3ImUA&libraries=geometry&callback=initMap">
+    </script>
+
+</body>
+</html>
