@@ -1,11 +1,5 @@
-<<<<<<< HEAD
+
 Flask==2.3.3
 pandas==2.1.1
 googlemaps==4.10.0
 python-dotenv==1.0.0
-=======
-Flask==2.3.3
-pandas==2.1.1
-googlemaps==4.10.0
-python-dotenv==1.0.0
->>>>>>> 0b6321ae6c39a3fc250c3fe7cadb4514471036ed

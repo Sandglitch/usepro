@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: useless-route-generator
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: Maps_API_KEY
+        sync: false
+    staticPublishPath: .
+    autoDeploy: true
