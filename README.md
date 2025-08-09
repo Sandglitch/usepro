@@ -1,101 +1,60 @@
-# Random Long Route Flask Application
+#Njan aan Map🗺️🗺️
 
-A Flask backend application that generates random routes with waypoints using the Google Maps API.
 
-## Features
+###Team Name: STONKS
 
-- **Random Route Generation**: Takes start and end locations, finds the landmass, and selects 3 random cities as waypoints
-- **Google Maps Integration**: Uses Google Maps Geocoding and Directions APIs
-- **Landmass Detection**: Determines the landmass group based on the starting location
-- **Efficient Data Loading**: Loads city data once on startup for optimal performance
 
-## Setup Instructions
+### Team Members
+- Team Lead: Jerin Joice   - Vishwajyothi college of engineering and technology
+- Member 2: Vivek Rajeev - Vishwajyothi college of engineering and technology
 
-### 1. Install Dependencies
+### Project Description
+
+Njan Aan Map is a web app that finds a route between two points in India. The route doesn't have to be shortest route or the most optimal route. It will find a 'route' from point A to point B and that's it.
+
+### The Problem (that doesn't exist)
+People need to get from point A to point B
+
+### The Solution (that nobody asked for)
+We get them from point A to point B...eventually
+
+## Technical Details
+### Technologies/Components Used
+For Software:
+- Python,HTML
+- Flask
+- pandas,numpy,googlemaps,python-dotenv,Flask-Cors,os,traceback
+- Google Maps API,Vercel
+
+
+### Implementation
+For Software:
+# Installation
+ Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Environment Configuration
-
-Create a `.env` file in the project root with your Google Maps API key:
-
-```
-GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
-```
-
-**To get a Google Maps API key:**
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select an existing one
-3. Enable the following APIs:
-   - Geocoding API
-   - Directions API
-4. Create credentials (API Key)
-5. Copy the API key to your `.env` file
-
-### 3. Data File
-
-Ensure you have a `cities_with_groups.csv` file in the project root with the following columns:
-- `city`: City name
-- `lat`: Latitude
-- `lng`: Longitude  
-- `landmass_group`: Landmass identifier
-
-### 4. Run the Application
+# Run
 
 ```bash
 python app.py
 ```
 
-The application will start on `http://localhost:5000`
+### Project Documentation
+For Software:
 
-## API Endpoints
+# Screenshots
+<img width="3188" height="1202" alt="frame (3)" src="https://i.postimg.cc/c1BVLcN1/1.webp" />
+## Homepage Preview
 
-### GET /get-random-route
+<img width="3188" height="1202" alt="frame (3)" src="https://i.postimg.cc/c1BVLcN1/2.webp" />
+## User enters input
 
-Generates a random route with waypoints between two locations.
+<img width="3188" height="1202" alt="frame (3)" src="https://i.postimg.cc/c1BVLcN1/3.webp" />
+## Critically accurate routes are shown
 
-**Query Parameters:**
-- `start` (required): Starting location (e.g., "Delhi, India")
-- `end` (required): Destination location (e.g., "Mumbai, India")
-
-**Success Response (200):**
-```json
-{
-  "waypoints": ["CityName1", "CityName2", "CityName3"],
-  "polyline": "encoded_polyline_string_from_google"
-}
-```
-
-**Error Response (400/500):**
-```json
-{
-  "error": "Descriptive error message"
-}
-```
-
-### GET /health
-
-Health check endpoint to verify the application status.
-
-**Response:**
-```json
-{
-  "status": "healthy",
-  "cities_loaded": 1234
-}
-```
-
-## Example Usage
-
-```bash
-# Get a random route from Delhi to Mumbai
-curl "http://localhost:5000/get-random-route?start=Delhi,India&end=Mumbai,India"
-
-# Health check
-curl "http://localhost:5000/health"
-```
 
 ## How It Works
 
@@ -128,3 +87,4 @@ The application handles various error scenarios:
 - Keep your Google Maps API key secure
 - Consider implementing rate limiting for production use
 - Monitor API usage to stay within Google's quotas
+
