@@ -58,6 +58,7 @@ For Software:
 ### Project Demo
 # Video
 https://drive.google.com/file/d/1uMiud6vs5hYhA01M4LrGvHp4sSRX3hQc/view?usp=sharing
+The video is of the code being run from local host. Then the user enter two locations in one state and watch as a route comically long generates spanning many states and a large waste of time. Truly USELESS!!!
 
 ## Team Contributions
 
@@ -66,3 +67,4 @@ https://drive.google.com/file/d/1uMiud6vs5hYhA01M4LrGvHp4sSRX3hQc/view?usp=shari
 ## What we learnt
 
        We started with an idea for a longest route app and quickly realised we would need a quantum computer for that. Then we set down to brainstorming: how could we make this work. We ran a lot of ideas through ourselves, identifying the pros and cons. This was the most intense ideating session we have had. We learnt a lot, A LOT. We learnt quite a bit about python, pandas and how they are a hassle to work with, how APIs function, how google's cloud console can be navigated and used. We received a lot of help from the mentors and made many connections. I am really proud of making something so useless.
+
