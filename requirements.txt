@@ -3,3 +3,7 @@ Flask==2.3.3
 pandas==2.2.2
 googlemaps==4.10.0
 python-dotenv==1.0.0
+cython
+meson
+meson-python
+ninja
