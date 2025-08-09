@@ -49,8 +49,8 @@ For Software:
 <img width="3188" height="1202" alt="frame (3)" src="https://i.postimg.cc/c1BVLcN1/1.webp" />
 ## Homepage Preview
 
-<img width="3188" height="1202" alt="frame (3)" src="https://i.postimg.cc/c1BVLcN1/2.webp" />
+<img width="3188" height="1202" alt="frame (3)" src="https://i.postimg.cc/yxstTD0z/2.webp" />
 ## User enters input
 
-<img width="3188" height="1202" alt="frame (3)" src="https://i.postimg.cc/c1BVLcN1/3.webp" />
+<img width="3188" height="1202" alt="frame (3)" src="https://i.postimg.cc/6qcSbBh4/3.webp" />
 ## Critically accurate routes are shown
