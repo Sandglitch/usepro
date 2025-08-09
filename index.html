@@ -153,13 +153,6 @@
                 messageDiv.innerText = ''; // Clear loading message
                 resultsDiv.style.display = 'block';
 
-                // Display the randomly chosen waypoints
-                data.waypoints.forEach(waypoint => {
-                    const li = document.createElement('li');
-                    li.innerText = waypoint;
-                    waypointsList.appendChild(li);
-                });
-
                 // Decode the polyline and draw it on the map
                 const decodedPath = google.maps.geometry.encoding.decodePath(data.polyline);
                 
