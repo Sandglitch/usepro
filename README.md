@@ -1,130 +1,68 @@
-# Random Long Route Flask Application
+# Njan aan Map🗺🗺
 
-A Flask backend application that generates random routes with waypoints using the Google Maps API.
 
-## Features
+### Team Name: STONKS
 
-- **Random Route Generation**: Takes start and end locations, finds the landmass, and selects 3 random cities as waypoints
-- **Google Maps Integration**: Uses Google Maps Geocoding and Directions APIs
-- **Landmass Detection**: Determines the landmass group based on the starting location
-- **Efficient Data Loading**: Loads city data once on startup for optimal performance
 
-## Setup Instructions
+### Team Members
+- Team Lead: Jerin Joice   - Vishwajyothi college of engineering and technology
+- Member 2: Vivek Rajeev - Vishwajyothi college of engineering and technology
 
-### 1. Install Dependencies
+### Project Description
 
-```bash
+Njan Aan Map is a web app that finds a route between two points in India. The route doesn't have to be shortest route or the most optimal route. It will find a 'route' from point A to point B and that's it.
+
+### The Problem (that doesn't exist)
+People need to get from point A to point B
+
+### The Solution (that nobody asked for)
+We get them from point A to point B...eventually
+
+## Technical Details
+### Technologies/Components Used
+For Software:
+- Python,HTML
+- Flask
+- pandas,numpy,googlemaps,python-dotenv,Flask-Cors,os,traceback
+- Google Maps API,
+
+
+### Implementation
+For Software:
+# Installation
+ Install Dependencies
+
+bash
 pip install -r requirements.txt
-```
 
-### 2. Environment Configuration
 
-Create a `.env` file in the project root with your Google Maps API key:
+# Run
 
-```
-GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
-```
-
-**To get a Google Maps API key:**
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select an existing one
-3. Enable the following APIs:
-   - Geocoding API
-   - Directions API
-4. Create credentials (API Key)
-5. Copy the API key to your `.env` file
-
-### 3. Data File
-
-Ensure you have a `cities_with_groups.csv` file in the project root with the following columns:
-- `city`: City name
-- `lat`: Latitude
-- `lng`: Longitude  
-- `landmass_group`: Landmass identifier
-
-### 4. Run the Application
-
-```bash
+bash
 python app.py
-```
 
-The application will start on `http://localhost:5000`
 
-## API Endpoints
+### Project Documentation
+For Software:
 
-### GET /get-random-route
+# Screenshots
+<img width="3188" height="1202" alt="frame (3)" src="https://i.postimg.cc/c1BVLcN1/1.webp" />
+## Homepage Preview
 
-Generates a random route with waypoints between two locations.
+<img width="3188" height="1202" alt="frame (3)" src="https://i.postimg.cc/yxstTD0z/2.webp" />
+## User enters input
 
-**Query Parameters:**
-- `start` (required): Starting location (e.g., "Delhi, India")
-- `end` (required): Destination location (e.g., "Mumbai, India")
+<img width="3188" height="1202" alt="frame (3)" src="https://i.postimg.cc/6qcSbBh4/3.webp" />
+## Critically accurate routes are shown
 
-**Success Response (200):**
-```json
-{
-  "waypoints": ["CityName1", "CityName2", "CityName3"],
-  "polyline": "encoded_polyline_string_from_google"
-}
-```
+### Project Demo
+# Video
+https://drive.google.com/file/d/1uMiud6vs5hYhA01M4LrGvHp4sSRX3hQc/view?usp=sharing
 
-**Error Response (400/500):**
-```json
-{
-  "error": "Descriptive error message"
-}
-```
+## Team Contributions
 
-### GET /health
+- Jerin Joice: Backend
+- Vivek Rajeev:  Frontend
+## What we learnt
 
-Health check endpoint to verify the application status.
-
-**Response:**
-```json
-{
-  "status": "healthy",
-  "cities_loaded": 1234
-}
-```
-
-## Example Usage
-
-```bash
-# Get a random route from Delhi to Mumbai
-curl "http://localhost:5000/get-random-route?start=Delhi,India&end=Mumbai,India"
-
-# Health check
-curl "http://localhost:5000/health"
-```
-
-## How It Works
-
-1. **Request Processing**: Receives start and end locations as query parameters
-2. **Geocoding**: Converts the start location string to coordinates using Google Maps Geocoding API
-3. **Landmass Detection**: Finds the nearest city in the dataset to determine the landmass group
-4. **Waypoint Selection**: Randomly selects 3 cities from the same landmass group
-5. **Route Generation**: Calls Google Maps Directions API with the waypoints
-6. **Response**: Returns the waypoint city names and encoded polyline
-
-## Error Handling
-
-The application handles various error scenarios:
-- Missing or invalid API key
-- Location not found during geocoding
-- Insufficient cities in landmass group
-- Google Maps API errors
-- Missing required parameters
-
-## Dependencies
-
-- **Flask**: Web framework
-- **pandas**: Data handling and CSV processing
-- **googlemaps**: Google Maps API client
-- **python-dotenv**: Environment variable management
-
-## Security Notes
-
-- Never commit your `.env` file to version control
-- Keep your Google Maps API key secure
-- Consider implementing rate limiting for production use
-- Monitor API usage to stay within Google's quotas
+       We started with an idea for a longest route app and quickly realised we would need a quantum computer for that. Then we set down to brainstorming: how could we make this work. We ran a lot of ideas through ourselves, identifying the pros and cons. This was the most intense ideating session we have had. We learnt a lot, A LOT. We learnt quite a bit about python, pandas and how they are a hassle to work with, how APIs function, how google's cloud console can be navigated and used. We received a lot of help from the mentors and made many connections. I am really proud of making something so useless.
